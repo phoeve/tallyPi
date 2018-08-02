@@ -1,0 +1,14 @@
+[Unit]
+Description=NPCC Tally Service for Mobile Cameras
+After=network.target
+
+[Service]
+ExecStart=/home/pi/tallyPi/tallyPiRecv
+WorkingDirectory=/home/pi/tallyPi
+StandardOutput=inherit
+StandardError=inherit
+Restart=always
+User=pi
+
+[Install]
+WantedBy=multi-user.target
