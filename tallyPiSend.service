@@ -3,7 +3,7 @@ Description=NPCC Tally Service for Mobile Cameras
 After=network.target
 
 [Service]
-ExecStart=/home/pi/tallyPi/tallyPiSend
+ExecStart=/home/pi/tallyPi/tallySend
 WorkingDirectory=/home/pi/tallyPi
 StandardOutput=inherit
 StandardError=inherit
