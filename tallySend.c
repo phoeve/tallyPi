@@ -7,13 +7,14 @@
 #include <netdb.h>
 #include <stdio.h>
 #include <unistd.h>
-#include <string.h> /* memset() */
-#include <sys/time.h> /* select() */ 
+#include <string.h> 
+#include <sys/time.h> 
 #include <wiringPi.h>
 
 #include <stdlib.h>
 
 #define REMOTE_SERVER_PORT 1500
+#define MILLISECOND_DELAY 100000
 
 int main(int argc, char *argv[]) {
   
@@ -83,11 +84,8 @@ int main(int argc, char *argv[]) {
 	    close(sd);
 	    exit(1);
 	  }
-		usleep(250000);
+		usleep(MILLISECOND_DELAY);
     }
-
-  
-  return 1;
 
 }
 
