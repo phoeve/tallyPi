@@ -1,9 +1,10 @@
 [Unit]
-Description=NPCC Tally Service for Mobile Cameras
+Description=NPCC Tally Camera 2
 After=network.target
+ConditionHost=NPCCTallyCamera2
 
 [Service]
-ExecStart=/home/pi/tallyPi/tallyRecv
+ExecStart=/home/pi/tallyPi/tallyRecv 2
 WorkingDirectory=/home/pi/tallyPi
 StandardOutput=inherit
 StandardError=inherit

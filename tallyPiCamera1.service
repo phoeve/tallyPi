@@ -1,10 +1,10 @@
 [Unit]
-Description=NPCC Tally Service Send
+Description=NPCC Tally Camera 1
 After=network.target
-ConditionHost=NPCCTallySend
+ConditionHost=NPCCTallyCamera1
 
 [Service]
-ExecStart=/home/pi/tallyPi/tallySend
+ExecStart=/home/pi/tallyPi/tallyRecv 1
 WorkingDirectory=/home/pi/tallyPi
 StandardOutput=inherit
 StandardError=inherit
