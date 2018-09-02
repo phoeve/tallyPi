@@ -13,7 +13,6 @@
 
 #include <stdlib.h>
 
-#define REMOTE_SERVER_PORT 1500
 #define MILLISECOND_DELAY 100000
 
 int main(int argc, char *argv[]) {
@@ -48,7 +47,7 @@ int main(int argc, char *argv[]) {
   remoteServAddr.sin_family = h->h_addrtype;
   memcpy((char *) &remoteServAddr.sin_addr.s_addr, 
      h->h_addr_list[0], h->h_length);
-  remoteServAddr.sin_port = htons(REMOTE_SERVER_PORT);
+  remoteServAddr.sin_port = htons(atoi(argv[1]));
 
   sd = socket(AF_INET,SOCK_DGRAM,0);
   if(sd<0) {

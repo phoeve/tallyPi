@@ -11,7 +11,6 @@
 
 #include <stdlib.h>
 
-#define LOCAL_SERVER_PORT 1500
 #define MAX_MSG 100
 #define OUTPUT_PIN 29
 
@@ -21,10 +20,11 @@ int main(int argc, char *argv[]) {
   struct sockaddr_in cliAddr, servAddr;
   char msg[MAX_MSG];
   int broadcast = 1;
+  int camera, port;
 
-
-
-  printf("Listening to Camera %s Tally\n", argv[1]);
+  port = atoi(argv[1]);
+  camera = atoi(argv[2]);
+  printf("Listening on UDP port (%d) to Camera (%d)\n", port, camera);
 
   // Setup wiringPi
   if (wiringPiSetup () < 0)
@@ -49,16 +49,16 @@ int main(int argc, char *argv[]) {
 
   servAddr.sin_family = AF_INET;
   servAddr.sin_addr.s_addr = htonl(INADDR_ANY);
-  servAddr.sin_port = htons(LOCAL_SERVER_PORT);
+  servAddr.sin_port = htons(port);
   rc = bind (sd, (struct sockaddr *) &servAddr,sizeof(servAddr));
   if(rc<0) {
     printf("%s: cannot bind port number %d \n", 
-       argv[0], LOCAL_SERVER_PORT);
+       argv[0], port);
     exit(1);
   }
 
   printf("%s: waiting for data on port UDP %u\n", 
-       argv[0],LOCAL_SERVER_PORT);
+       argv[0],port);
 
   while(1) {
     
@@ -79,7 +79,7 @@ int main(int argc, char *argv[]) {
        ntohs(cliAddr.sin_port),msg);
 
 	if (argc > 1){
-		if (msg[atoi(argv[1])-1] == '1')
+		if (msg[camera-1] == '1')
 			digitalWrite (OUTPUT_PIN, HIGH);
 		else
 			digitalWrite (OUTPUT_PIN, LOW);
