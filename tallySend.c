@@ -9,7 +9,9 @@
 #include <unistd.h>
 #include <string.h> 
 #include <sys/time.h> 
+#ifndef __APPLE__
 #include <wiringPi.h>
+#endif
 
 #include <stdlib.h>
 
@@ -28,6 +30,7 @@ int main(int argc, char *argv[]) {
     setlogmask (LOG_UPTO (LOG_INFO));
     openlog ("tallyServer", LOG_PID, LOG_USER);
 
+#ifndef __APPLE__
     // Setup wiringPi
     if (wiringPiSetup () < 0)
     {
@@ -41,6 +44,7 @@ int main(int argc, char *argv[]) {
         pinMode(gpio_pin[i], INPUT);
         pullUpDnControl(gpio_pin[i], PUD_UP);
     }
+#endif
   
   h = gethostbyname("255.255.255.255");
 
@@ -74,7 +78,9 @@ int main(int argc, char *argv[]) {
 
     while(1){
         for (i=0; i<sizeof(gpio_pin); i++){
+#ifndef __APPLE__
             buffer[i] = (!digitalRead(gpio_pin[i])+48);
+#endif
         }
 
 	  rc = sendto(sd, buffer, sizeof(gpio_pin), 0, (struct sockaddr *) &remoteServAddr, sizeof(remoteServAddr));

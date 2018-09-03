@@ -7,7 +7,9 @@
 #include <syslog.h>
 #include <unistd.h> 
 #include <string.h> 
+#ifndef __APPLE__
 #include <wiringPi.h>
+#endif
 
 #include <stdlib.h>
 
@@ -26,6 +28,7 @@ int main(int argc, char *argv[]) {
   camera = atoi(argv[2]);
   printf("Listening on UDP port (%d) to Camera (%d)\n", port, camera);
 
+#ifndef __APPLE__
   // Setup wiringPi
   if (wiringPiSetup () < 0)
     {
@@ -34,6 +37,7 @@ int main(int argc, char *argv[]) {
   }
 
   pinMode(OUTPUT_PIN, OUTPUT);
+#endif
 
   /* socket creation */
   sd=socket(AF_INET, SOCK_DGRAM, 0);
@@ -78,12 +82,14 @@ int main(int argc, char *argv[]) {
        argv[0],inet_ntoa(cliAddr.sin_addr),
        ntohs(cliAddr.sin_port),msg);
 
-	if (argc > 1){
-		if (msg[camera-1] == '1')
-			digitalWrite (OUTPUT_PIN, HIGH);
-		else
-			digitalWrite (OUTPUT_PIN, LOW);
-	}
+#ifndef __APPLE__
+    if (argc > 1){
+      if (msg[camera-1] == '1')
+        digitalWrite (OUTPUT_PIN, HIGH);
+      else
+        digitalWrite (OUTPUT_PIN, LOW);
+    }
+#endif
 
   }
 
